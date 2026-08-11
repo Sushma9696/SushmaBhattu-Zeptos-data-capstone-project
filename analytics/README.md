@@ -116,7 +116,7 @@ Final Deployment Recommendation
 
 I recommend deploying the Tuned Random Forest Classifier (titanic_pipeline.joblib). Across all models, Tuned Random Forest achieved the highest Accuracy (83.15%), ROC AUC (0.8679), and F1 Score (0.7756). While the Decision Tree gave slightly higher Precision (82.69%), its Recall was poor (62.32%), missing many real survivors. The Random Forest model offers balanced high Precision (81.54%) and Recall (73.91%), making it stable and reliable for real-world deployment.
 
-Note: This project was build and tested in google colab notebook. So open the .ipynb file and execute it cell by cell. If it is cloned and executed through VS Code, Please change the file paths (i.e. input csv's, .png file paths) accordingly before executing.
+**Note: This project was build and tested in google colab notebook. So open the .ipynb file and execute it cell by cell. If it is cloned and executed through VS Code, Please change the file paths (i.e. input csv's, .png file paths) accordingly before executing.**
 
 How to Load and Test Saved Pipeline
 
