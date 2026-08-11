@@ -1,0 +1,9 @@
+# Data Pipeline & Scraping Dependencies
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+pandas>=2.1.0
+numpy>=1.24.0
+
+'''!pip3 install beautifulsoup4 requests
+!pip3 install pandas
+!pip3 install numpy'''
