@@ -46,44 +46,62 @@ The project has a single switch called `MOCK_LLM`:
 
 ## How to Run the Project locally
 
-### Using Python Directly
+Method 1: Using Python Directly
 
 **Open terminal and go to the folder**:
 
 bash
+
 cd support_assistant
+
 Create and activate virtual environment:
 
 Bash
+
 python -m venv venv
+
 On Windows: .\venv\Scripts\activate
+
 Install required packages:
 
 Bash
+
 pip install -r requirements.txt
+
 Run ingestion (saves documents to ChromaDB):
 
 Bash
+
 python ingestion.py
+
 Start the FastAPI server:
 
 Bash
+
 uvicorn app:app --host 0.0.0.0 --port 7860
+
 Method 2: Using Docker
+
 Build Docker image:
 
 Bash
+
 docker build -t zepto-support .
+
 Run Docker container:
 
 Bash
+
 docker run -p 7860:7860 zepto-support
+
 Now open http://localhost:7860 in your browser or test via curl.
 
 Output Examples (Tested in Default Mock Mode)
+
 Here are actual test results run locally in default mock mode:
 
 Example 1: Policy Question (Triggers Document Search)
+
 Command:
 
 Bash
@@ -107,6 +125,7 @@ JSON
 
 
 Example 2: General Question (Triggers Direct Response)
+
 Command:
 
 Bash
@@ -125,10 +144,13 @@ JSON
 }
 
 Optional: Running with Real Groq LLM
+
 If you want to test with a real LLM, get a free key from console.groq.com and run:
 
 Bash
 
 export MOCK_LLM=0
+
 export GROQ_API_KEY="your_actual_groq_api_key_here"
+
 uvicorn app:app --host 0.0.0.0 --port 7860
