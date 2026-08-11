@@ -13,6 +13,8 @@ By default, this service runs completely **offline in mock mode (`MOCK_LLM=1`)**
 
 The complete application works in 4 simple steps:
 
+![alt text](image.png)
+
 [ User asks a Question ]
 
 │
@@ -94,9 +96,10 @@ The project has a single switch called `MOCK_LLM`:
 
 ### Method 1: Using Python Directly
 
-1. **Open terminal and go to the folder**:
-   ```bash
-   cd support_assistant
+**Open terminal and go to the folder**:
+
+```bash
+cd support_assistant
 Create and activate virtual environment:
 
 Bash

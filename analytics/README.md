@@ -22,6 +22,7 @@ Tuning
 ├── requirements.txt							  # Project dependencies
 
 └── charts/                 					  # Exported visual charts
+
     ├── 01_univariate.png
 
     ├── 02_correlation_heatmap.png
@@ -46,7 +47,9 @@ Tuning
 Missing values were checked across all columns and handled strictly using exact threshold rules:
 
 deck (77.10% Missing): Dropped column completely because missing percentage is greater than 30%. Imputing such high missing values creates unwanted bias.
+
 age (19.87% Missing): Handled via conditional median imputation using pclass and sex groups because missing rate is within the 5% to 30% range.
+
 embarked / embark_town (0.22% Missing): Dropped the 2 missing rows directly because missing percentage is below 5%.
 
 
@@ -66,20 +69,26 @@ Conclusion: Since Mean > Median > Mode, the fare distribution is positively righ
 Survival Breakdown:
 
 By Sex: Female = 74.20%, Male = 18.89%
+
 By Class: 1st Class = 62.96%, 2nd Class = 47.28%, 3rd Class = 24.24%
+
 By Sex + Class: 1st Class Females had 96.81% survival, whereas 3rd Class Males had 13.54% survival.
 
 Top 2 Off-Diagonal Correlations:
 
 pclass - fare (r = -0.5495): Strong negative correlation showing higher class numbers (3rd Class) pay lower fares.
+
 sibsp - parch (r = +0.4148): Moderate positive correlation showing family members usually traveled together.
 
 
 4. Visual Data Story Key Points
 
 Chart 1 (Sex & Class): Proves that social status and the "women and children first" policy strongly decided survival chances.
+
 Chart 2 (Fare vs Class): Higher-paying passengers in every class had higher survival rates because their cabins were closer to lifeboat decks.
+
 Chart 3 (Age Distribution): Young children in 2nd and 3rd classes were saved on priority compared to adults.
+
 Chart 4 (Age vs Fare): Mortality was concentrated heavily in young adults (20–40 years) paying low fares below $30.
 
 
@@ -98,7 +107,9 @@ All preprocessing steps (SimpleImputer, OneHotEncoder, StandardScaler) were fit 
 Evaluated Random Forest under three conditions:
 
 Baseline (No Handling): Precision = 0.7969, Recall = 0.7391, F1 = 0.7669
+
 class_weight='balanced': Precision = 0.7846, Recall = 0.7391, F1 = 0.7612
+
 SMOTE (Train Fold Only): Precision = 0.7432, Recall = 0.7971, F1 = 0.7692
 
 Conclusion: Applying SMOTE inside the training fold gave the highest Recall and best overall F1 score by capturing maximum true survivors.
@@ -114,6 +125,7 @@ Out-of-Bag (OOB) Validation Score: 0.8143
 5.Regression Side-Task (Predicting Fare)
 
 Metrics: MAE = $18.8953, RMSE = $34.5029, R² = 0.4491, Adjusted R² = 0.4239.
+
 Heteroscedasticity Analysis: The residual plot shows clear heteroscedasticity (uneven spread/fan shape), because low fares are clustered tightly while expensive tickets vary widely.
 
 
@@ -122,16 +134,23 @@ Model Performance Metrics
 Classification Models
 
 Model Architecture,			Accuracy,	Precision,	Recall,	F1 Score,	ROC AUC
+
 Logistic Regression,		0.8034,		0.7727,		0.7391,	0.7556,		0.8546
+
 Decision Tree (Depth 4),	0.8090,		0.8269,		0.6232,	0.7107,		0.8351
+
 Random Forest (Tuned),		0.8315,		0.8154,		0.7391,	0.7756,		0.8679
 
 Regression Model
 
 Metric Name,						Value
+
 Mean Absolute Error (MAE),			$18.8953
+
 Root Mean Squared Error (RMSE),		$34.5029
+
 R² Score,							0.4491
+
 Adjusted R² Score,					0.4239
 
 Note: Classification and Regression metrics operate on different scales and target variables (survived vs. fare).
@@ -151,10 +170,10 @@ Python:
 import joblib
 import pandas as pd
 
-# Load saved end-to-end pipeline
+#Load saved end-to-end pipeline
 pipeline = joblib.load("analytics/titanic_pipeline.joblib")
 
-# Pass raw, unprocessed sample input
+#Pass raw, unprocessed sample input
 raw_sample = pd.DataFrame([{
     'pclass': 1,
     'sex': 'female',
@@ -168,7 +187,7 @@ raw_sample = pd.DataFrame([{
     'alone': True
 }])
 
-# Predict output directly
+#Predict output directly
 prediction = pipeline.predict(raw_sample)[0]
 probability = pipeline.predict_proba(raw_sample)[0, 1]
 

@@ -9,14 +9,18 @@ This module is built for Zepto's data engineering benchmarking process. It scrap
 
 /data_pipeline
 │
+
 ├── Capstone_project_module1.ipynb       # Main script (Scrape -> Clean -> Convert -> SQLite -> SQL Queries -> Pandas Merge)
+
 ├── data_base.db       	   				 # Generated SQLite relational database
+
 ├── requirements.txt       				 # Project dependencies
+
 └── README.md              				 # Documentation and execution guide
 
 
 ### Requirements
-- Python 3.8+
+- `Python 3.8+`
 - `requests`
 - `beautifulsoup4`
 - `pandas`
@@ -38,6 +42,7 @@ Fixed Baseline Rate: 1 GBP = 105.50 INR
 Specification: As per project guidelines, price_inr is derived via this exact fixed exchange rate (price_gbp * 105.50).
 
 ### Justification
+
 Chosen Strategy: Median / Mode Imputation
 
 Why Median Imputation for price_gbp?
