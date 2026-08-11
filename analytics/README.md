@@ -1,4 +1,4 @@
-Titanic Analytics and Predictive Modeling Pipeline
+# Titanic Analytics and Predictive Modeling Pipeline
 
 This project is a complete end-to-end data science project built on the classic Titanic dataset. It covers dataset profiling, missing data handling, univariate/bivariate analysis, visual data story, machine learning models, hyperparameter tuning, regression side-task, and pipeline deployment.
 
@@ -6,24 +6,38 @@ The entire module loads the dataset only once and saves titanic.csv inside /anal
 
 Folder StructurePlaintextanalytics/
 
-├── Capstone_project_module2_eda.ipynb            # Part A: Data Profiling, Cleaning, and Data Story
-├── Capstone_project_module2_modeling.ipynb       # Part B: Preprocessing, Modeling, Evaluation & Tuning
-├── titanic_raw.csv             				  # Original csv file downloaded from Seaborn github
-├── titanic_cleaned.csv             			  # Cleaned CSV file data according to EDA rules
+├── Capstone_project_module2_eda.ipynb     # Part A: Data Profiling, Cleaning, and Data Story
+
+├── Capstone_project_module2_modeling.ipynb # Part B: Preprocessing, Modeling, Evaluation & 
+Tuning
+
+├── titanic_raw.csv             		# Original csv file downloaded from Seaborn github
+
+├── titanic_cleaned.csv             		# Cleaned CSV file data according to EDA rules
+
 ├── titanic_pipeline.joblib 					  # Saved complete end-to-end ML pipeline
+
 ├── README.md               					  # Summary report and documentation
+
 ├── requirements.txt							  # Project dependencies
-└── charts/                 					  # Exported visual charts	# Project dependencies
+
+└── charts/                 					  # Exported visual charts
     ├── 01_univariate.png
+
     ├── 02_correlation_heatmap.png
+
     ├── 03_multivariate_story.png
+
     ├── 04_standardization_check.png
+
     ├── 05_decision_tree.png
+
     ├── 06_roc_curves.png
+    
     └── 07_regression_residuals.png
     
 
-Part A: Data Profiling, Cleaning & Data Story
+# Part A: Data Profiling, Cleaning & Data Story
 
 
 
@@ -69,7 +83,7 @@ Chart 3 (Age Distribution): Young children in 2nd and 3rd classes were saved on 
 Chart 4 (Age vs Fare): Mortality was concentrated heavily in young adults (20–40 years) paying low fares below $30.
 
 
-Part B: Predictive Modeling & Pipeline
+# Part B: Predictive Modeling & Pipeline
 
 1. Stratified Split Justification
 
@@ -102,20 +116,24 @@ Out-of-Bag (OOB) Validation Score: 0.8143
 Metrics: MAE = $18.8953, RMSE = $34.5029, R² = 0.4491, Adjusted R² = 0.4239.
 Heteroscedasticity Analysis: The residual plot shows clear heteroscedasticity (uneven spread/fan shape), because low fares are clustered tightly while expensive tickets vary widely.
 
-Model Comparison Summary TablePlaintext========================================================================================================================
-                                     
-									 
-									 MODEL COMPARISON METRICS SUMMARY TABLE
-========================================================================================================================
-                                  CLASSIFICATION METRICS                            |         REGRESSION METRICS
-------------------------------------------------------------------------------------------------------------------------
-Model Architecture     | Accuracy | Precision | Recall | F1 Score | ROC AUC     | Metric Name            | Value
-------------------------------------------------------------------------------------------------------------------------
-Logistic Regression    |  0.8034  |  0.7727   | 0.7391 |  0.7556  | 0.8546      | Mean Absolute Error    | $18.8953
-Decision Tree (Depth 4)|  0.8090  |  0.8269   | 0.6232 |  0.7107  | 0.8351      | Root Mean Squared Error| $34.5029
-Random Forest (Tuned)  |  0.8315  |  0.8154   | 0.7391 |  0.7756  | 0.8679      | R² Score               | 0.4491
-                       |          |           |        |          |             | Adjusted R² Score      | 0.4239
-========================================================================================================================
+
+Model Performance Metrics
+
+Classification Models
+
+Model Architecture,			Accuracy,	Precision,	Recall,	F1 Score,	ROC AUC
+Logistic Regression,		0.8034,		0.7727,		0.7391,	0.7556,		0.8546
+Decision Tree (Depth 4),	0.8090,		0.8269,		0.6232,	0.7107,		0.8351
+Random Forest (Tuned),		0.8315,		0.8154,		0.7391,	0.7756,		0.8679
+
+Regression Model
+
+Metric Name,						Value
+Mean Absolute Error (MAE),			$18.8953
+Root Mean Squared Error (RMSE),		$34.5029
+R² Score,							0.4491
+Adjusted R² Score,					0.4239
+
 Note: Classification and Regression metrics operate on different scales and target variables (survived vs. fare).
 
 

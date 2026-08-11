@@ -14,29 +14,52 @@ By default, this service runs completely **offline in mock mode (`MOCK_LLM=1`)**
 The complete application works in 4 simple steps:
 
 [ User asks a Question ]
+
 │
+
 ▼
+
 [ FastAPI /ask ]
+
 │
+
 ▼
+
 ┌────────────────────────────────────────────────────────────┐
 │ LangGraph Pipeline                                         │
+
 │                                                            │
+
 │  [ Step 1: classify_intent ]                               │
+
 │       │                                                    │
+
 │       ├──► Check keyword (policy vs general question)      │
+
 │       │                                                    │
+
 │       ├─────────────────────────┐                          │
+
 │       ▼                         ▼                          │
+
 │  [ policy_question ]     [ general_question ]              │
+
 │       │                         │                          │
+
 │       ▼                         ▼                          │
+
 │  [ Step 2: retrieve ]    [ Step 3: direct_answer ]         │
+
 │  ├── Fetch top 3 chunks         └── Return simple canned   │
+
 │  └── Prepare answer                 message                │
+
 └───────────────────────┬────────────────────────────────────┘
+
 │
+
 ▼
+
 [ Valid JSON Output ]
 
 
