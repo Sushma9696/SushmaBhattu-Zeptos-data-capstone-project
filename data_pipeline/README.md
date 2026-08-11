@@ -1,18 +1,30 @@
 # Catalog Competitive Intelligence Data Pipeline (`/data_pipeline`)
 
 ## Overview
-This module automates the ETL pipeline for Zepto's pricing competitive intelligence analytics. It scrapes raw catalog items, transforms and normalizes the data, applies fixed currency conversion, stores it in a SQLite database, and runs analytical SQL and Pandas queries to ensure data parity.
 
-## Setup & Installation
+This module is built for Zepto's data engineering benchmarking process. It scrapes live product data from `books.toscrape.com`, cleans and validates all fields, converts prices using a fixed baseline INR conversion rate, loads the data into a normalized SQLite relational database, and executes benchmarking SQL queries along with pandas comparisons.
+
+# Project Overview & Folder Structure
+
+
+/data_pipeline
+│
+├── Capstone_project_module1.ipynb       # Main script (Scrape -> Clean -> Convert -> SQLite -> SQL Queries -> Pandas Merge)
+├── data_base.db       	   				 # Generated SQLite relational database
+├── requirements.txt       				 # Project dependencies
+└── README.md              				 # Documentation and execution guide
+
 
 ### Requirements
 - Python 3.8+
 - `requests`
 - `beautifulsoup4`
 - `pandas`
+- `numpy`
 
 ### Installation
 !pip3 install requests beautifulsoup4 pandas numpy
+
 
 ### Execution
 This project was build and tested in google colab notebook. So open the .ipynb file and execute it cell by cell.

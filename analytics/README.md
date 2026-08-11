@@ -1,72 +1,158 @@
-### Executive Data Story & EDA Insights
+Titanic Analytics and Predictive Modeling Pipeline
 
-### 1. Missing Value Strategy 
+This project is a complete end-to-end data science project built on the classic Titanic dataset. It covers dataset profiling, missing data handling, univariate/bivariate analysis, visual data story, machine learning models, hyperparameter tuning, regression side-task, and pipeline deployment.
 
-deck (77.10% Missing): Dropped entirely because missingness exceeds the 30% threshold. Imputing over three-quarters of a feature distorts feature distributions. 
- 
-age (19.87% Missing): Imputed using conditional medians based on pclass and sex groups (within the 5%–30% threshold). 
- 
-embarked / embark_town (0.22% Missing): Below the 5% threshold; dropped the 2 affected rows. 
- 
-### 2. Outliers & Skewness Analysis 
- 
-Outliers (IQR Rule): 
-age: 42 outliers (>57.0 years). 
-fare: 116 outliers (>65.65). 
- 
-Fare Distribution Skewness: 
-Mean: $32.20 | Median: $14.45 | Mode: $8.05 
-Ordering: Mean > Median > Mode. This confirms a heavily right-skewed (positively skewed) distribution dominated by lower fares with a long upper tail of premium tickets. 
- 
-### 3. Bivariate & Off-Diagonal Correlations 
- 
-Survival Rates:Sex:  
-Female = 74.20%, Male = 18.89% 
-Pclass: 1st = 62.96%, 2nd = 47.28%, 3rd = 24.24% 
-Sex x Pclass: 1st Class Female = 96.81% vs. 3rd Class Male = 13.54% 
- 
-Top 2 Off-Diagonal Correlations: 
-pclass - fare (r = -0.5495, |r| = 0.5495): Inverse relation reflecting higher numerical class values (3rd Class) commanding lower ticket prices. 
-sibsp - parch (r = +0.4148, |r| = 0.4148): Positive correlation showing passengers traveling with siblings/spouses frequently traveled with parents/children. 
+The entire module loads the dataset only once and saves titanic.csv inside /analytics as an offline fallback file. All subsequent tasks (EDA and modeling) strictly use this committed CSV.
 
-### 4. Multivariate Data Story Interpretations
+Folder StructurePlaintextanalytics/
 
-Chart 1 (Survival by Class & Sex): Demonstrates the combined effect of demographic policies ("women and children first") and socioeconomic privilege. 1st class women survived at 96.81%, whereas 3rd class men suffered an 86.46% mortality rate.
+├── Capstone_project_module2_eda.ipynb            # Part A: Data Profiling, Cleaning, and Data Story
+├── Capstone_project_module2_modeling.ipynb       # Part B: Preprocessing, Modeling, Evaluation & Tuning
+├── titanic_raw.csv             				  # Original csv file downloaded from Seaborn github
+├── titanic_cleaned.csv             			  # Cleaned CSV file data according to EDA rules
+├── titanic_pipeline.joblib 					  # Saved complete end-to-end ML pipeline
+├── README.md               					  # Summary report and documentation
+├── requirements.txt							  # Project dependencies
+└── charts/                 					  # Exported visual charts	# Project dependencies
+    ├── 01_univariate.png
+    ├── 02_correlation_heatmap.png
+    ├── 03_multivariate_story.png
+    ├── 04_standardization_check.png
+    ├── 05_decision_tree.png
+    ├── 06_roc_curves.png
+    └── 07_regression_residuals.png
+    
 
-Chart 2 (Fare Distribution across Classes by Survival): Shows that across all three ticket classes, surviving passengers systematically possessed higher median and upper-quartile fare values, proving cabin location and proximity to lifeboats favored higher-paying passengers.
+Part A: Data Profiling, Cleaning & Data Story
 
-Chart 3 (Age Split across Classes & Survival): Reveals an age survival advantage in 2nd and 3rd classes for children under 10 years old, whereas working-age adults in 3rd class experienced high mortality.
 
-Chart 4 (Age vs. Fare Interactions): Indicates that mortality is heavily concentrated in the low-fare (<$30), young-adult age range (20–40 years). Paying a fare above $100 served as a strong predictor of survival regardless of age.
 
-### Predictive Modeling & Imbalance Evaluations
+1. Missing Value Strategy & Threshold Rules:
 
-Stratified Split Justification
+Missing values were checked across all columns and handled strictly using exact threshold rules:
 
-The target variable survived exhibits an asymmetric distribution (~38.4% survived vs. ~61.6% died). Applying a stratified split guarantees that both training and testing folds retain the exact 38.4 / 61.6 class balance, preventing distribution drift during training and evaluation.
+deck (77.10% Missing): Dropped column completely because missing percentage is greater than 30%. Imputing such high missing values creates unwanted bias.
+age (19.87% Missing): Handled via conditional median imputation using pclass and sex groups because missing rate is within the 5% to 30% range.
+embarked / embark_town (0.22% Missing): Dropped the 2 missing rows directly because missing percentage is below 5%.
 
-### Imbalance Handling Comparison
+
+2. Univariate Analysis & Outlier Detectionage Outliers: 
+
+Identified 42 outliers (age > 57 years) using IQR rule [Q1 - 1.5 * IQR, Q3 + 1.5 * IQR].
+
+fare Outliers: Identified 116 outliers (fare $65.65) using IQR rule.
+
+Fare Distribution Skewness:Mean: $32.20 | Median: $14.45 | Mode: $8.05
+
+Conclusion: Since Mean > Median > Mode, the fare distribution is positively right-skewed with a long right tail of high luxury fares.
+
+
+3. Bivariate Analysis & Key Correlations
+
+Survival Breakdown:
+
+By Sex: Female = 74.20%, Male = 18.89%
+By Class: 1st Class = 62.96%, 2nd Class = 47.28%, 3rd Class = 24.24%
+By Sex + Class: 1st Class Females had 96.81% survival, whereas 3rd Class Males had 13.54% survival.
+
+Top 2 Off-Diagonal Correlations:
+
+pclass - fare (r = -0.5495): Strong negative correlation showing higher class numbers (3rd Class) pay lower fares.
+sibsp - parch (r = +0.4148): Moderate positive correlation showing family members usually traveled together.
+
+
+4. Visual Data Story Key Points
+
+Chart 1 (Sex & Class): Proves that social status and the "women and children first" policy strongly decided survival chances.
+Chart 2 (Fare vs Class): Higher-paying passengers in every class had higher survival rates because their cabins were closer to lifeboat decks.
+Chart 3 (Age Distribution): Young children in 2nd and 3rd classes were saved on priority compared to adults.
+Chart 4 (Age vs Fare): Mortality was concentrated heavily in young adults (20–40 years) paying low fares below $30.
+
+
+Part B: Predictive Modeling & Pipeline
+
+1. Stratified Split Justification
+
+Target variable survived has an imbalanced class distribution (~38.4% survived vs 61.6% died). We used a 80:20 Stratified Train/Test Split to ensure both train and test sets have exact same target class proportions.
+
+2. Data Leakage Prevention
+
+All preprocessing steps (SimpleImputer, OneHotEncoder, StandardScaler) were fit only on the training split and transformed on the test split using scikit-learn Pipeline and ColumnTransformer. No test data was exposed during preprocessing.
+
+3. Class Imbalance Handling Comparison
+
+Evaluated Random Forest under three conditions:
 
 Baseline (No Handling): Precision = 0.7969, Recall = 0.7391, F1 = 0.7669
-
 class_weight='balanced': Precision = 0.7846, Recall = 0.7391, F1 = 0.7612
+SMOTE (Train Fold Only): Precision = 0.7432, Recall = 0.7971, F1 = 0.7692
 
-SMOTE (Train fold only): Precision = 0.7432, Recall = 0.7971, F1 = 0.7692
+Conclusion: Applying SMOTE inside the training fold gave the highest Recall and best overall F1 score by capturing maximum true survivors.
 
-Conclusion: SMOTE applied to the training fold achieved the best overall F1 score (0.7692) and highest recall (0.7971). While baseline precision was slightly higher, SMOTE effectively reduced false negatives, which is critical in survival prediction scenarios.
-
-Hyperparameter Tuning & Regression Side-Task Conclusions
+4. Hyperparameter Tuning & Out-of-Bag (OOB) Score
 
 GridSearchCV Best Parameters: 
+
 {'classifier__max_depth': 6, 'classifier__max_features': 'sqrt', 'classifier__n_estimators': 100}
 
-Out-of-Bag (OOB) Score: 0.8143
+Out-of-Bag (OOB) Validation Score: 0.8143
 
-Heteroscedasticity Analysis: The linear regression residual plot for fare prediction displays strong heteroscedasticity (a funnel/fan pattern where residual spread expands significantly as predicted fare increases). This occurs because low fares cluster tightly around $8-$30, while premium fares vary widely up to $500+.
+5.Regression Side-Task (Predicting Fare)
+
+Metrics: MAE = $18.8953, RMSE = $34.5029, R² = 0.4491, Adjusted R² = 0.4239.
+Heteroscedasticity Analysis: The residual plot shows clear heteroscedasticity (uneven spread/fan shape), because low fares are clustered tightly while expensive tickets vary widely.
+
+Model Comparison Summary TablePlaintext========================================================================================================================
+                                     
+									 
+									 MODEL COMPARISON METRICS SUMMARY TABLE
+========================================================================================================================
+                                  CLASSIFICATION METRICS                            |         REGRESSION METRICS
+------------------------------------------------------------------------------------------------------------------------
+Model Architecture     | Accuracy | Precision | Recall | F1 Score | ROC AUC     | Metric Name            | Value
+------------------------------------------------------------------------------------------------------------------------
+Logistic Regression    |  0.8034  |  0.7727   | 0.7391 |  0.7556  | 0.8546      | Mean Absolute Error    | $18.8953
+Decision Tree (Depth 4)|  0.8090  |  0.8269   | 0.6232 |  0.7107  | 0.8351      | Root Mean Squared Error| $34.5029
+Random Forest (Tuned)  |  0.8315  |  0.8154   | 0.7391 |  0.7756  | 0.8679      | R² Score               | 0.4491
+                       |          |           |        |          |             | Adjusted R² Score      | 0.4239
+========================================================================================================================
+Note: Classification and Regression metrics operate on different scales and target variables (survived vs. fare).
 
 
-### Final Deployment Recommendation
+Final Deployment Recommendation
 
-I recommend deploying the Tuned Random Forest Classifier (titanic_pipeline.joblib).
+I recommend deploying the Tuned Random Forest Classifier (titanic_pipeline.joblib). Across all models, Tuned Random Forest achieved the highest Accuracy (83.15%), ROC AUC (0.8679), and F1 Score (0.7756). While the Decision Tree gave slightly higher Precision (82.69%), its Recall was poor (62.32%), missing many real survivors. The Random Forest model offers balanced high Precision (81.54%) and Recall (73.91%), making it stable and reliable for real-world deployment.
 
-This model achieves the highest overall accuracy (83.15%), ROC AUC (0.8679), and F1 Score (0.7756), striking an optimal balance between precision (81.54%) and recall (73.91%). Unlike individual decision trees, which overfit to high-variance features like fare, the ensemble architecture generalizes well across edge cases while maintaining an Out-of-Bag validation score of 81.43%. Embedded within a scikit-learn Pipeline alongside a ColumnTransformer, the model safely handles unseen missing values and categorical transformations at inference time without risk of data leakage.
+
+How to Load and Test Saved Pipeline
+
+The complete pipeline (Preprocessing + Model) is saved as titanic_pipeline.joblib. You can reload and run inference on raw, unseen data with this short script:
+
+Python:
+
+import joblib
+import pandas as pd
+
+# Load saved end-to-end pipeline
+pipeline = joblib.load("analytics/titanic_pipeline.joblib")
+
+# Pass raw, unprocessed sample input
+raw_sample = pd.DataFrame([{
+    'pclass': 1,
+    'sex': 'female',
+    'age': None,  # Test missing value handling
+    'sibsp': 0,
+    'parch': 0,
+    'fare': 150.0,
+    'embarked': 'C',
+    'who': 'woman',
+    'adult_male': False,
+    'alone': True
+}])
+
+# Predict output directly
+prediction = pipeline.predict(raw_sample)[0]
+probability = pipeline.predict_proba(raw_sample)[0, 1]
+
+print(f"Prediction: {'Survived' if prediction == 1 else 'Died'}")
+print(f"Survival Probability: {probability:.4f}")
