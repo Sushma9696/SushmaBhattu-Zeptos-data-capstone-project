@@ -107,7 +107,9 @@ Command:
 Bash
 
 curl.exe -X POST "http://127.0.0.1:7860/ask" `
+
   -H "Content-Type: application/json" `
+  
   -d '{\"query\": \"What is the return policy for damaged items?\"}'
   
 JSON Output Received:
@@ -131,7 +133,9 @@ Command:
 Bash
 
 curl.exe -X POST "http://127.0.0.1:7860/ask" `
+
   -H "Content-Type: application/json" `
+
   -d '{\"query\": \"What is the capital of India?\"}'
   
 JSON Output Received:
