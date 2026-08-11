@@ -13,56 +13,8 @@ By default, this service runs completely **offline in mock mode (`MOCK_LLM=1`)**
 
 The complete application works in 4 simple steps:
 
-![alt text](image.png)
 
-[ User asks a Question ]
-
-│
-
-▼
-
-[ FastAPI /ask ]
-
-│
-
-▼
-
-┌────────────────────────────────────────────────────────────┐
-│ LangGraph Pipeline                                         │
-
-│                                                            │
-
-│  [ Step 1: classify_intent ]                               │
-
-│       │                                                    │
-
-│       ├──► Check keyword (policy vs general question)      │
-
-│       │                                                    │
-
-│       ├─────────────────────────┐                          │
-
-│       ▼                         ▼                          │
-
-│  [ policy_question ]     [ general_question ]              │
-
-│       │                         │                          │
-
-│       ▼                         ▼                          │
-
-│  [ Step 2: retrieve ]    [ Step 3: direct_answer ]         │
-
-│  ├── Fetch top 3 chunks         └── Return simple canned   │
-
-│  └── Prepare answer                 message                │
-
-└───────────────────────┬────────────────────────────────────┘
-
-│
-
-▼
-
-[ Valid JSON Output ]
+![Pipeline](pipeline_architecture.png)
 
 
 ### Stage Details:
@@ -94,11 +46,11 @@ The project has a single switch called `MOCK_LLM`:
 
 ## How to Run the Project locally
 
-### Method 1: Using Python Directly
+### Using Python Directly
 
 **Open terminal and go to the folder**:
 
-```bash
+bash
 cd support_assistant
 Create and activate virtual environment:
 

@@ -4,19 +4,10 @@
 
 This module is built for Zepto's data engineering benchmarking process. It scrapes live product data from `books.toscrape.com`, cleans and validates all fields, converts prices using a fixed baseline INR conversion rate, loads the data into a normalized SQLite relational database, and executes benchmarking SQL queries along with pandas comparisons.
 
-# Project Overview & Folder Structure
+# Folder Structure
 
 
-/data_pipeline
-│
-
-├── Capstone_project_module1.ipynb       # Main script (Scrape -> Clean -> Convert -> SQLite -> SQL Queries -> Pandas Merge)
-
-├── data_base.db       	   				 # Generated SQLite relational database
-
-├── requirements.txt       				 # Project dependencies
-
-└── README.md              				 # Documentation and execution guide
+![About Files Structure](folder_structure.png)
 
 
 ### Requirements

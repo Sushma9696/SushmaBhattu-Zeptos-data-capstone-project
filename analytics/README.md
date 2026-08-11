@@ -4,38 +4,9 @@ This project is a complete end-to-end data science project built on the classic 
 
 The entire module loads the dataset only once and saves titanic.csv inside /analytics as an offline fallback file. All subsequent tasks (EDA and modeling) strictly use this committed CSV.
 
-Folder StructurePlaintextanalytics/
+Folder Structure analytics/
 
-├── Capstone_project_module2_eda.ipynb     # Part A: Data Profiling, Cleaning, and Data Story
-
-├── Capstone_project_module2_modeling.ipynb # Part B: Preprocessing, Modeling, Evaluation & 
-Tuning
-
-├── titanic_raw.csv             		# Original csv file downloaded from Seaborn github
-
-├── titanic_cleaned.csv             		# Cleaned CSV file data according to EDA rules
-
-├── titanic_pipeline.joblib 					  # Saved complete end-to-end ML pipeline
-
-├── README.md               					  # Summary report and documentation
-
-├── requirements.txt							  # Project dependencies
-
-└── charts/                 					  # Exported visual charts
-
-    ├── 01_univariate.png
-
-    ├── 02_correlation_heatmap.png
-
-    ├── 03_multivariate_story.png
-
-    ├── 04_standardization_check.png
-
-    ├── 05_decision_tree.png
-
-    ├── 06_roc_curves.png
-    
-    └── 07_regression_residuals.png
+![Analytics files structure](folder_structure-1.png)
     
 
 # Part A: Data Profiling, Cleaning & Data Story
@@ -94,13 +65,16 @@ Chart 4 (Age vs Fare): Mortality was concentrated heavily in young adults (20–
 
 # Part B: Predictive Modeling & Pipeline
 
+
 1. Stratified Split Justification
 
 Target variable survived has an imbalanced class distribution (~38.4% survived vs 61.6% died). We used a 80:20 Stratified Train/Test Split to ensure both train and test sets have exact same target class proportions.
 
+
 2. Data Leakage Prevention
 
 All preprocessing steps (SimpleImputer, OneHotEncoder, StandardScaler) were fit only on the training split and transformed on the test split using scikit-learn Pipeline and ColumnTransformer. No test data was exposed during preprocessing.
+
 
 3. Class Imbalance Handling Comparison
 
@@ -114,6 +88,7 @@ SMOTE (Train Fold Only): Precision = 0.7432, Recall = 0.7971, F1 = 0.7692
 
 Conclusion: Applying SMOTE inside the training fold gave the highest Recall and best overall F1 score by capturing maximum true survivors.
 
+
 4. Hyperparameter Tuning & Out-of-Bag (OOB) Score
 
 GridSearchCV Best Parameters: 
@@ -122,36 +97,17 @@ GridSearchCV Best Parameters:
 
 Out-of-Bag (OOB) Validation Score: 0.8143
 
-5.Regression Side-Task (Predicting Fare)
+
+5. Regression Side-Task (Predicting Fare)
 
 Metrics: MAE = $18.8953, RMSE = $34.5029, R² = 0.4491, Adjusted R² = 0.4239.
 
 Heteroscedasticity Analysis: The residual plot shows clear heteroscedasticity (uneven spread/fan shape), because low fares are clustered tightly while expensive tickets vary widely.
 
+Model Comparison Summary Table
 
-Model Performance Metrics
 
-Classification Models
-
-Model Architecture,			Accuracy,	Precision,	Recall,	F1 Score,	ROC AUC
-
-Logistic Regression,		0.8034,		0.7727,		0.7391,	0.7556,		0.8546
-
-Decision Tree (Depth 4),	0.8090,		0.8269,		0.6232,	0.7107,		0.8351
-
-Random Forest (Tuned),		0.8315,		0.8154,		0.7391,	0.7756,		0.8679
-
-Regression Model
-
-Metric Name,						Value
-
-Mean Absolute Error (MAE),			$18.8953
-
-Root Mean Squared Error (RMSE),		$34.5029
-
-R² Score,							0.4491
-
-Adjusted R² Score,					0.4239
+![Model Summary Table](model_table.png)
 
 Note: Classification and Regression metrics operate on different scales and target variables (survived vs. fare).
 
@@ -171,9 +127,11 @@ import joblib
 import pandas as pd
 
 #Load saved end-to-end pipeline
+
 pipeline = joblib.load("analytics/titanic_pipeline.joblib")
 
 #Pass raw, unprocessed sample input
+
 raw_sample = pd.DataFrame([{
     'pclass': 1,
     'sex': 'female',
@@ -188,6 +146,7 @@ raw_sample = pd.DataFrame([{
 }])
 
 #Predict output directly
+
 prediction = pipeline.predict(raw_sample)[0]
 probability = pipeline.predict_proba(raw_sample)[0, 1]
 
